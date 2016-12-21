@@ -6,12 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ public class ServiceReceiver extends BroadcastReceiver {
     //통화화면으로 넘어가면서 Activity가 onDestory되므로 , Receiver도 초기화
     static int currentState = -1;
     static String idle = null;
+
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -46,10 +50,15 @@ public class ServiceReceiver extends BroadcastReceiver {
             if(state.equals("IDLE")){
                 if(currentState == TelephonyManager.CALL_STATE_OFFHOOK) {
                     //발신종료
-                    Toast.makeText(context, "발신 종료 전화번호 : " + idle, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "발신 종료 전화번호 : " + idle, Toast.LENGTH_SHORT).show();
+
+                    //전화번호 입력
+                    ((EditText)((Activity)context).findViewById(R.id.editText)).setText(idle);
                 }else if(currentState == TelephonyManager.CALL_STATE_RINGING){
                     //착신 종료
-                    Toast.makeText(context, "착신 종료 전화번호 : " + idle, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "착신 종료 전화번호 : " + idle, Toast.LENGTH_SHORT).show();
+                    //전화번호 입력
+                    ((EditText)((Activity)context).findViewById(R.id.editText)).setText(idle);
                 }
 
 //                Toast.makeText(context, "착신종료 전화번호 : " + idle, Toast.LENGTH_SHORT).show();
@@ -57,19 +66,23 @@ public class ServiceReceiver extends BroadcastReceiver {
             }
             if(state.equals("OFFHOOK")){
                 //발신중
-                Toast.makeText(context, "발신중 전화번호 : " + incomingNumber, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "발신중 전화번호 : " + incomingNumber, Toast.LENGTH_SHORT).show();
                 currentState = TelephonyManager.CALL_STATE_OFFHOOK;
                 //6.0이하 버전 값저장
                 idle = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
             }
             if(state.equals("RINGING")){
-                Toast.makeText(context, "착신중 전화번호 : " + incomingNumber, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "착신중 전화번호 : " + incomingNumber, Toast.LENGTH_SHORT).show();
                 currentState = TelephonyManager.CALL_STATE_RINGING;
                 idle = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
             }
         }
 
-//        Toast.makeText(context, intent.getStringExtra("phoneNumber") , Toast.LENGTH_SHORT).show();
+        if(intent.getStringExtra("phoneNumber") != null) {
+            Toast.makeText(context, intent.getStringExtra("phoneNumber"), Toast.LENGTH_SHORT).show();
+        }
+
+
 
 //        PhoneStateRead phoneListener = new PhoneStateRead();
 //        TelephonyManager telephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);

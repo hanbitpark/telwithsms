@@ -10,18 +10,65 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.admin.telwithsms.MainActivity">
 
+    <Button
+        android:text="번호보내기"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:onClick="sendBroadcast"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/textview"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:id="@+id/textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="수발신 전화번호"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button" />
 
-    <Button
-        android:text="Button"
+
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:inputType="phone"
+        android:ems="10"
+        android:layout_marginTop="30dp"
+        android:id="@+id/editText"
+        android:layout_below="@+id/button"
         android:layout_centerHorizontal="true"
-        android:id="@+id/button"
-        android:onClick="sendBroadcast"/>
+        android:hint="받을사람" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:layout_below="@+id/editText"
+        android:layout_alignRight="@+id/editText"
+        android:layout_alignEnd="@+id/editText"
+        android:layout_marginTop="30dp"
+        android:id="@+id/editText2"
+        android:hint="문자내용" />
+
+    <Button
+        android:text="문자보내기"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:id="@+id/button2"
+        android:layout_below="@+id/editText2"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button" />
+
+    <TextView
+        android:text="메세지 송신 대기..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:id="@+id/textview2" />
 </RelativeLayout>
