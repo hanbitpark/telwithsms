@@ -129,12 +129,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "미승인되어서 앱 실행이 중지되었습니다.", Toast.LENGTH_SHORT).show();
 
             if(shouldShowRequestPermissionRationale(Manifest.permission.SEND_SMS)){
-                //권한이 모두 승인 안되었을때 실행
+                //권한을 한번이상 미승인 되었을때 재실행
                 requestPermissions(new String[]{Manifest.permission.SEND_SMS, Manifest.permission.READ_PHONE_STATE}, 1000);
 
             }else{
-                //권한 하나만 승인되었을때 실행
-                //권한을 os에 요청
+                //승인안된 권한 실행
                 requestPermissions(new String [] {Manifest.permission.SEND_SMS, Manifest.permission.READ_PHONE_STATE}, 1000);
             }
 
