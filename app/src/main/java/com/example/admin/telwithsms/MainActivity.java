@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                     PendingIntent SentIntent = PendingIntent.getBroadcast(
                             MainActivity.this, 0, new Intent(ACTION_SENT), 0);
                     sms.sendTextMessage(num, null, text, SentIntent, null);
+                    sms.sendMultimediaMessage(getApplicationContext(), uri, String url, ,bundle, SentIntent);
                     break;
             }
         }
