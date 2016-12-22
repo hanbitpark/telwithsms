@@ -26,6 +26,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText mNum;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     final static String ACTION_SENT =  "ACTION_MESSAGE_SENT";
     final static String ACTION_DELIVERY =  "ACTION_MESSAGE_DELIVERY";
+    static final String TAG = MainActivity.class.getSimpleName();
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -48,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
         mSend = (TextView)findViewById(R.id.textview2);
 
         findViewById(R.id.button2).setOnClickListener(mClickListener);
+
+        Intent phoneNumberIntent = getIntent();
+        String phoneNumber  = phoneNumberIntent.getStringExtra("phoneNumber");
+        Log.d(TAG, "메인number : " + phoneNumber);
+        mNum.setText(phoneNumber);
+
 
     }
 
@@ -80,10 +89,27 @@ public class MainActivity extends AppCompatActivity {
                     mSend.setText("송신 대기...");
 //                    mDelivery.setText("상대방 수신 대기...");
 
+                    //단문메세지 80글자이하
+
                     PendingIntent SentIntent = PendingIntent.getBroadcast(
                             MainActivity.this, 0, new Intent(ACTION_SENT), 0);
-                    sms.sendTextMessage(num, null, text, SentIntent, null);
-                    sms.sendMultimediaMessage(getApplicationContext(), uri, String url, ,bundle, SentIntent);
+                    if(text.length() > 80){
+                        //80글자이상 장문일경수 실행
+                        ArrayList<String> parts = sms.divideMessage(text);
+                        ArrayList<PendingIntent> SentPendingIntent = new ArrayList<PendingIntent>();
+
+                        for (int i = 0; i < parts.size(); i++) {
+                            SentPendingIntent.add(SentIntent);
+                        }
+
+                        sms.sendMultipartTextMessage(num, null, parts, SentPendingIntent, null);
+
+
+                    }else{
+                        //80글자이하 단문이하
+
+                        sms.sendTextMessage(num, null, text, SentIntent, null);
+                    }
                     break;
             }
         }
