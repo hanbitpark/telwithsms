@@ -43,7 +43,9 @@ public class ServiceReceiver extends BroadcastReceiver {
                 context.startActivity(numberIntent);
 
             }else if(state.equals("OFFHOOK")){
+                idle = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
                 Log.d(TAG, "OFFHOKK : " + idle);
+
             }else if(state.equals("RINGING")){
                 idle = extras.getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
                 Log.d(TAG, "RINGING : " +idle);
@@ -100,6 +102,7 @@ public class ServiceReceiver extends BroadcastReceiver {
 
 
     }
+
 
 
 
